@@ -23,23 +23,14 @@ class _ToutiaoCustomHeaderState extends State<ToutiaoCustomHeader> {
       height: _triggerHeight,
       onOffsetChange: (value) {
         _offset = value / _triggerHeight;
+        if (_offset <= 0) _hasVibrated = false;
         setState(() {});
       },
       completeDuration: const Duration(seconds: 1),
       builder: (context, status) {
-        switch (status) {
-          case RefreshStatus.canRefresh:
-            if (_hasVibrated) break;
-            HapticFeedback.lightImpact();
-            _hasVibrated = true;
-            break;
-
-          case RefreshStatus.refreshing:
-            _hasVibrated = false;
-            break;
-
-          default:
-            break;
+        if (status == RefreshStatus.canRefresh && !_hasVibrated) {
+          HapticFeedback.lightImpact();
+          _hasVibrated = true;
         }
 
         return SizedBox(
