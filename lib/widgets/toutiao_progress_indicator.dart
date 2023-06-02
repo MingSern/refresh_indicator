@@ -20,16 +20,15 @@ class ToutiaoProgressIndicator extends StatefulWidget {
 class ToutiaoProgressIndicatorState extends State<ToutiaoProgressIndicator> {
   final _filePath = 'assets/loading_indicator.riv';
   final _controller = OneShotAnimation('idle');
+  final _animationOffset = 60;
+  final _speed = 1.4;
   SMIInput<double>? _input;
 
   @override
   void didUpdateWidget(covariant ToutiaoProgressIndicator oldWidget) {
     if (widget.value == oldWidget.value) return;
-    double value = widget.value - 0.58;
-
-    if (_input?.value == value) return;
-    _input?.change(value * 100 * 1.58);
-
+    final value = 100 * widget.value - _animationOffset;
+    _input?.change(value * _speed);
     super.didUpdateWidget(oldWidget);
   }
 
